@@ -34,12 +34,12 @@ NSString *const kPlaceholderPostMessage = @"Say something about this...";
 @implementation MyShareViewController
 
 - (id)initWithItem:(NSDictionary *)object objectType:(NSString *)objectTypeName
-      actionType:(NSString *) actionTypeName
+        actionType:(NSString *) actionTypeName
 {
     self = [super init];
     if (self) {
         self.storyObject = [[NSMutableDictionary alloc] initWithDictionary:object
-                                                          copyItems:NO];
+                                                                 copyItems:NO];
         self.objectType = objectTypeName;
         self.actionType = actionTypeName;
     }
@@ -67,7 +67,7 @@ NSString *const kPlaceholderPostMessage = @"Say something about this...";
     if (self.storyObject[@"image"]) {
         self.storyImageView.image = self.storyObject[@"image"];
     }
-
+    
     // Set story title
     if (self.storyObject[@"object"][@"title"]) {
         self.storyTitleLabel.text = self.storyObject[@"object"][@"title"];
@@ -115,74 +115,75 @@ NSString *const kPlaceholderPostMessage = @"Say something about this...";
  */
 - (void)publishStory
 {
-//    // Iniitalize a connection for making a batch request
-//    FBRequestConnection *connection = [[FBRequestConnection alloc] init];
-//    
-//    // Request 1: Object creation
-//    NSMutableDictionary<FBOpenGraphObject> *object = [FBGraphObject openGraphObjectForPost];
-//    object[@"type"] = self.storyObject[@"object"][@"type"];
-//    object[@"title"] = self.storyObject[@"object"][@"title"];
-//    // Set the image for the object
-//    if (self.storyObject[@"object"][@"image"]) {
-//        object[@"image"] = self.storyObject[@"object"][@"image"];
-////    } else {
-////        // If there is no image attached to the object but there
-////        // is a local copy then kick off the image upload to the
-////        // staging resources
-////        if (self.storyObject[@"image"]) {
-////            [self publishImage:self.storyObject[@"image"]];
-////            return;
-////        }
-//    }
-//    object[@"description"] = self.storyObject[@"object"][@"description"];
-//    if (self.storyObject[@"object"][@"data"]) {
-//        object[@"data"] = self.storyObject[@"object"][@"data"];
-//    }
-//
-//    FBRequest *objectRequest = [FBRequest
-//                                requestForPostOpenGraphObject:object];
-//    [connection addRequest:objectRequest
-//         completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-//             if (error) {
-//                 NSLog(@"Error: %@", error.description);
-//             }
-//         }
-//            batchEntryName:@"objectCreate"];
-//    
-//    
-//    // Create an action
-//    NSMutableDictionary<FBOpenGraphAction> *action = [FBGraphObject openGraphActionForPost];
-//
-//    // Attach the id from the object created to the action's object
-//    action[self.objectType] = @"{result=objectCreate:$.id}";
-//    
-//    // Add user message parameter if user filled it in
-//    if (![self.userMessageTextView.text
-//          isEqualToString:kPlaceholderPostMessage] &&
-//        ![self.userMessageTextView.text isEqualToString:@""]) {
-//        action[@"message"] = self.userMessageTextView.text;
-//    }
-//    
-//    // Since the user has explicitly shared the action, turn on the flag
-//    action[@"fb:explicitly_shared"] = @"true";
-//    
-//    // Request 2: Publish action
-//    FBRequest *actionRequest = [FBRequest requestForPostWithGraphPath:
-//                                [NSString stringWithFormat:@"me/%@", self.actionType]
-//                                                          graphObject:action];
-//    [connection addRequest:actionRequest
-//         completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-//             if (error) {
-//                 NSLog(@"Error: %@", error.description);
-//             } else {
-//                 NSLog(@"Posted OG action with id: %@", result[@"id"]);
-//             }
-//             // Dismiss the share view
-//             [[self presentingViewController] dismissViewControllerAnimated:YES
-//                                                                 completion:nil];
-//         }];
-//    
-//    [connection start];
+    // Iniitalize a connection for making a batch request
+    FBRequestConnection *connection = [[FBRequestConnection alloc] init];
+    
+    // Request 1: Object creation
+    NSMutableDictionary<FBOpenGraphObject> *object = [FBGraphObject openGraphObjectForPost];
+    object[@"type"] = self.storyObject[@"object"][@"type"];
+    object[@"title"] = self.storyObject[@"object"][@"title"];
+    // Set the image for the object
+    // Set the image for the object
+    if (self.storyObject[@"object"][@"image"]) {
+        object[@"image"] = self.storyObject[@"object"][@"image"];
+    } else {
+        // If there is no image attached to the object but there
+        // is a local copy then kick off the image upload to the
+        // staging resources
+        if (self.storyObject[@"image"]) {
+            [self publishImage:self.storyObject[@"image"]];
+            return;
+        }
+    }
+    object[@"description"] = self.storyObject[@"object"][@"description"];
+    if (self.storyObject[@"object"][@"data"]) {
+        object[@"data"] = self.storyObject[@"object"][@"data"];
+    }
+    
+    FBRequest *objectRequest = [FBRequest
+                                requestForPostOpenGraphObject:object];
+    [connection addRequest:objectRequest
+         completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+             if (error) {
+                 NSLog(@"Error: %@", error.description);
+             }
+         }
+            batchEntryName:@"objectCreate"];
+    
+    
+    // Create an action
+    NSMutableDictionary<FBOpenGraphAction> *action = [FBGraphObject openGraphActionForPost];
+    
+    // Attach the id from the object created to the action's object
+    action[self.objectType] = @"{result=objectCreate:$.id}";
+    
+    // Add user message parameter if user filled it in
+    if (![self.userMessageTextView.text
+          isEqualToString:kPlaceholderPostMessage] &&
+        ![self.userMessageTextView.text isEqualToString:@""]) {
+        action[@"message"] = self.userMessageTextView.text;
+    }
+    
+    // Since the user has explicitly shared the action, turn on the flag
+    action[@"fb:explicitly_shared"] = @"true";
+    
+    // Request 2: Publish action
+    FBRequest *actionRequest = [FBRequest requestForPostWithGraphPath:
+                                [NSString stringWithFormat:@"me/%@", self.actionType]
+                                                          graphObject:action];
+    [connection addRequest:actionRequest
+         completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+             if (error) {
+                 NSLog(@"Error: %@", error.description);
+             } else {
+                 NSLog(@"Posted OG action with id: %@", result[@"id"]);
+             }
+             // Dismiss the share view
+             [[self presentingViewController] dismissViewControllerAnimated:YES
+                                                                 completion:nil];
+         }];
+    
+    [connection start];
 }
 
 /*

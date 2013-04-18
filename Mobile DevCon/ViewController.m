@@ -50,31 +50,31 @@
      }];
     
     self.books = @[
-                    @{@"image": [UIImage imageNamed:@"the_tipping_point.png"],
-                      @"privacy": @YES,
-                      @"object": @{
-                              @"type": @"books.book",
-                              @"fbsdk:create_object": @YES,
-                              @"title": @"The Tipping Point",
-                              @"url": @"http://furious-mist-4378.herokuapp.com/books/the_tipping_point/",
-                              @"image": @"http://www.renderready.com/wp-content/uploads/2011/02/the_tipping_point.jpg",
-                              @"description": @"How Little Things Can Make a Big Difference",
-                              @"data": @{@"isbn": @"0-316-31696-2"}
-                              }
-                      },
-                    @{@"image": [UIImage imageNamed:@"a_game_of_thrones.png"],
-                      @"privacy": @YES,
-                      @"object": gameOfThronesBookObject,
-                      },
-                    @{@"image": [UIImage imageNamed:@"catching_fire.png"],
-                      @"privacy": @NO,
-                      @"object": @"442064879213253"
-                      },
-                    @{@"image": [UIImage imageNamed:@"six_years.png"],
-                      @"privacy": @NO,
-                      @"object": @"http://furious-mist-4378.herokuapp.com/books/six_years.html"
-                      },
-                    ];
+                   @{@"image": [UIImage imageNamed:@"the_tipping_point.png"],
+                     @"privacy": @YES,
+                     @"object": @{
+                             @"type": @"books.book",
+                             @"fbsdk:create_object": @YES,
+                             @"title": @"The Tipping Point",
+                             @"url": @"http://furious-mist-4378.herokuapp.com/books/the_tipping_point/",
+                             @"image": @"http://www.renderready.com/wp-content/uploads/2011/02/the_tipping_point.jpg",
+                             @"description": @"How Little Things Can Make a Big Difference",
+                             @"data": @{@"isbn": @"0-316-31696-2"}
+                             }
+                     },
+                   @{@"image": [UIImage imageNamed:@"a_game_of_thrones.png"],
+                     @"privacy": @YES,
+                     @"object": gameOfThronesBookObject,
+                     },
+                   @{@"image": [UIImage imageNamed:@"catching_fire.png"],
+                     @"privacy": @NO,
+                     @"object": @"442064879213253"
+                     },
+                   @{@"image": [UIImage imageNamed:@"six_years.png"],
+                     @"privacy": @NO,
+                     @"object": @"http://furious-mist-4378.herokuapp.com/books/six_years.html"
+                     },
+                   ];
     
     self.scrollView.delegate = self;
     self.pageControl.currentPage = 0;
@@ -94,7 +94,7 @@
     [self loadVisiblePages];
     
     // Show the challenge button
-//    self.createChallengeButton.hidden = NO;
+    self.createChallengeButton.hidden = NO;
     
 }
 
@@ -108,17 +108,20 @@
 
 #pragma mark - Share methods
 - (IBAction)shareBookAction:(id)sender {
+    // Find the page we're on to get at the current book info
     NSInteger page = self.pageControl.currentPage;
-//    if ([self.books[page][@"privacy"] boolValue] && !FBSession.activeSession.isOpen) {
-//        [[[UIAlertView alloc]
-//          initWithTitle:@""
-//          message:@"Please log in with Facebook to share."
-//          delegate:nil
-//          cancelButtonTitle:@"OK"
-//          otherButtonTitles:nil, nil] show];
-//    } else {
+    
+    // Make sure the user's logged in for creating user-owned objects
+    if ([self.books[page][@"privacy"] boolValue] && !FBSession.activeSession.isOpen) {
+        [[[UIAlertView alloc]
+          initWithTitle:@""
+          message:@"Please log in with Facebook to share."
+          delegate:nil
+          cancelButtonTitle:@"OK"
+          otherButtonTitles:nil, nil] show];
+    } else {
         // Check if object image upload needed
-        //[self checkAndUploadBookImage];
+        [self checkAndUploadBookImage];
         
         // Create an action
         id<FBOpenGraphAction> action = (id<FBOpenGraphAction>)[FBGraphObject graphObject];
@@ -126,14 +129,17 @@
         // Connect the action to the defined object
         action[@"book"] = self.books[page][@"object"];
         
-//        // Show pre-selection of a place and a friend
-//        id<FBGraphPlace> place = (id<FBGraphPlace>)[FBGraphObject graphObject];
-//        [place setId:@"191206170926721"]; // Facebook Menlo Park
-//        [action setPlace:place]; // set place tag
-//        [action setTags:@[@"100003086810435"]]; // set user tags
+        //        // Show pre-selection of a place and a friend
+        //        id<FBGraphPlace> place = (id<FBGraphPlace>)[FBGraphObject graphObject];
+        //        [place setId:@"191206170926721"]; // Facebook Menlo Park
+        //        [action setPlace:place]; // set place tag
+        //        [action setTags:@[@"100003086810435"]]; // set user tags
+        
+        // Enable the Share Dialog beta feature
+        [FBSettings enableBetaFeature:FBBetaFeaturesOpenGraphShareDialog];
         
         // Show the share dialog to publish the book read action
-//        FBAppCall *call =
+        FBAppCall *call =
         [FBDialogs presentShareDialogWithOpenGraphAction:action
                                               actionType:@"books.reads"
                                      previewPropertyName:@"book"
@@ -146,74 +152,73 @@
              }
          }];
         
-//        // Backup share via a customized UI
-//        if (!call && [self.books[page][@"object"] isKindOfClass:[NSDictionary class]]) {
-//            // Fallback to customized share UI
-//            MyShareViewController *viewController =
-//            [[MyShareViewController alloc] initWithItem:self.books[page]
-//                                             objectType:@"book"
-//                                             actionType:@"books.reads"];
-//            [self presentViewController:viewController
-//                               animated:YES
-//                             completion:nil];
-//        }
-        
-//    }
+        // Backup share via a customized UI
+        if (!call && [self.books[page][@"object"] isKindOfClass:[NSDictionary class]]) {
+            // Fallback to customized share UI
+            MyShareViewController *viewController =
+            [[MyShareViewController alloc] initWithItem:self.books[page]
+                                             objectType:@"book"
+                                             actionType:@"books.reads"];
+            [self presentViewController:viewController
+                               animated:YES
+                             completion:nil];
+        }
+    }
+    
 }
 
 - (IBAction)createChallengeAction:(id)sender {
-//    NSDictionary* object = @{
-//                             @"fbsdk:create_object": @YES,
-//                             @"type": @"mobdevcon:challenge",
-//                             @"title": @"Summer Reading Challenge",
-//                             @"url": @"https://furious-mist-4378.herokuapp.com/challenge/summer_2013/",
-//                             @"image": @"http://3.bp.blogspot.com/-4_Pjzo8_ids/UU0GHCvzJ-I/AAAAAAAABr8/pU-WSIzysiI/s1600/SLMSC13.jpg",
-//                             @"description": @"Read as many great books as you can over the summer."
-//                             };
-//    
-//    
-//    
-//    id<FBOpenGraphAction> action = (id<FBOpenGraphAction>)[FBGraphObject graphObject];
-//    action[@"challenge"] = object; // set action's challenge property
-//    
-////    //id<FBGraphPlace> place = (id<FBGraphPlace>)[FBGraphObject graphObject];
-////    //[place setId:@"191206170926721"]; // Facebook Menlo Park
-////    //[action setPlace:place]; // set place tag
-////    
-////    //[action setTags:@[@"100003086810435"]]; // set user tags
-////    
-//    FBAppCall *call = [FBDialogs presentShareDialogWithOpenGraphAction:action
-//                                                            actionType:@"mobdevcon:create"
-//                                                   previewPropertyName:@"challenge"
-//                                                               handler:
-//                       ^(FBAppCall *action, NSDictionary *results, NSError *error) {
-//                           if(error) {
-//                               NSLog(@"Error: %@", error.description);
-//                           } else {
-//                               NSLog(@"Success!");
-//                           }
-//                       }];
-//    if (!call) {
-//        // Fallback to customized share UI
-//        NSDictionary *challenge = @{
-//                                    @"image": [UIImage imageNamed:@"summer_reading_challenge.png"],
-//                                    @"privacy": @YES,
-//                                    @"object": object
-//                                    };
-//        MyShareViewController *viewController =
-//        [[MyShareViewController alloc] initWithItem:challenge
-//                                         objectType:@"challenge"
-//                                         actionType:@"mobdevcon:create"];
-//        [self presentViewController:viewController
-//                           animated:YES
-//                         completion:nil];
-//    }
+    NSDictionary* object = @{
+                             @"fbsdk:create_object": @YES,
+                             @"type": @"mobdevcon:challenge",
+                             @"title": @"Summer Reading Challenge",
+                             @"url": @"https://furious-mist-4378.herokuapp.com/challenge/summer_2013/",
+                             @"image": @"http://3.bp.blogspot.com/-4_Pjzo8_ids/UU0GHCvzJ-I/AAAAAAAABr8/pU-WSIzysiI/s1600/SLMSC13.jpg",
+                             @"description": @"Read as many great books as you can over the summer."
+                             };
+    
+    
+    
+    id<FBOpenGraphAction> action = (id<FBOpenGraphAction>)[FBGraphObject graphObject];
+    action[@"challenge"] = object; // set action's challenge property
+    
+    //    //id<FBGraphPlace> place = (id<FBGraphPlace>)[FBGraphObject graphObject];
+    //    //[place setId:@"191206170926721"]; // Facebook Menlo Park
+    //    //[action setPlace:place]; // set place tag
+    //
+    //    //[action setTags:@[@"100003086810435"]]; // set user tags
+    
+    // Enable the Share Dialog beta feature
+    [FBSettings enableBetaFeature:FBBetaFeaturesOpenGraphShareDialog];
+    
+    // Show the share dialog to publish the create challenge action
+    FBAppCall *call = [FBDialogs presentShareDialogWithOpenGraphAction:action
+                                                            actionType:@"mobdevcon:create"
+                                                   previewPropertyName:@"challenge"
+                                                               handler:
+                       ^(FBAppCall *action, NSDictionary *results, NSError *error) {
+                           if(error) {
+                               NSLog(@"Error: %@", error.description);
+                           } else {
+                               NSLog(@"Success!");
+                           }
+                       }];
+    if (!call) {
+        // Fallback to customized share UI
+        NSDictionary *challenge = @{
+                                    @"image": [UIImage imageNamed:@"summer_reading_challenge.png"],
+                                    @"privacy": @YES,
+                                    @"object": object
+                                    };
+        MyShareViewController *viewController =
+        [[MyShareViewController alloc] initWithItem:challenge
+                                         objectType:@"challenge"
+                                         actionType:@"mobdevcon:create"];
+        [self presentViewController:viewController
+                           animated:YES
+                         completion:nil];
+    }
 }
-
-
-
-
-
 
 #pragma mark - Upload image methods
 /*
