@@ -70,9 +70,9 @@
                      @"privacy": @NO,
                      @"object": @"442064879213253"
                      },
-                   @{@"image": [UIImage imageNamed:@"six_years.png"],
+                   @{@"image": [UIImage imageNamed:@"bloodline.png"],
                      @"privacy": @NO,
-                     @"object": @"http://furious-mist-4378.herokuapp.com/books/six_years.html"
+                     @"object": @"http://furious-mist-4378.herokuapp.com/books/bloodline.html"
                      },
                    ];
     
@@ -173,7 +173,7 @@
                              @"type": @"mobdevcon:challenge",
                              @"title": @"Summer Reading Challenge",
                              @"url": @"https://furious-mist-4378.herokuapp.com/challenge/summer_2013/",
-                             @"image": @"http://3.bp.blogspot.com/-4_Pjzo8_ids/UU0GHCvzJ-I/AAAAAAAABr8/pU-WSIzysiI/s1600/SLMSC13.jpg",
+                             @"image": @"https://furious-mist-4378.herokuapp.com/challenge/summer_reading_challenge.png",
                              @"description": @"Read as many great books as you can over the summer."
                              };
     
