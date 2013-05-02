@@ -118,28 +118,52 @@ NSString *const kPlaceholderPostMessage = @"Say something about this...";
     // Iniitalize a connection for making a batch request
     FBRequestConnection *connection = [[FBRequestConnection alloc] init];
     
-    // Request 1: Object creation
+    // Request: Image upload (optional)
+    if (!self.storyObject[@"object"][@"image"]) {
+        // If there is no image attached to the object but there
+        // is a local copy then kick off the image upload to the
+        // staging resources
+        
+        // Set debugging so we can see the staging
+        // resource URL come back
+        [FBSettings setLoggingBehavior:
+         [NSSet setWithObjects:FBLoggingBehaviorFBRequests,
+          FBLoggingBehaviorFBURLConnections,
+          nil]];
+        // Create the image upload request
+        FBRequest *imageUploadRequest =
+        [FBRequest requestForUploadStagingResourceWithImage:
+         self.storyObject[@"image"]];
+        // Add the request to the batch
+        [connection addRequest:imageUploadRequest
+             completionHandler:
+         ^(FBRequestConnection *connection, id result, NSError *error) {
+             if (error) {
+                 NSLog(@"Error: %@", error.description);
+             }
+             // Stop request debug
+             [FBSettings setLoggingBehavior:nil];
+         }
+                batchEntryName:@"imageUpload"];
+    }
+    
+    // Request: Object creation
     NSMutableDictionary<FBOpenGraphObject> *object = [FBGraphObject openGraphObjectForPost];
     object[@"type"] = self.storyObject[@"object"][@"type"];
     object[@"title"] = self.storyObject[@"object"][@"title"];
     // Set the image for the object
-    // Set the image for the object
     if (self.storyObject[@"object"][@"image"]) {
         object[@"image"] = self.storyObject[@"object"][@"image"];
     } else {
-        // If there is no image attached to the object but there
-        // is a local copy then kick off the image upload to the
-        // staging resources
-        if (self.storyObject[@"image"]) {
-            [self publishImage:self.storyObject[@"image"]];
-            return;
-        }
+        // Image URL is the result of the image upload batch request
+        object[@"image"] = @"{result=imageUpload:$.uri}";
     }
     object[@"description"] = self.storyObject[@"object"][@"description"];
     if (self.storyObject[@"object"][@"data"]) {
         object[@"data"] = self.storyObject[@"object"][@"data"];
     }
     
+    // Add the request to the batch
     FBRequest *objectRequest = [FBRequest
                                 requestForPostOpenGraphObject:object];
     [connection addRequest:objectRequest
@@ -167,7 +191,7 @@ NSString *const kPlaceholderPostMessage = @"Say something about this...";
     // Since the user has explicitly shared the action, turn on the flag
     action[@"fb:explicitly_shared"] = @"true";
     
-    // Request 2: Publish action
+    // Request: Publish action
     FBRequest *actionRequest = [FBRequest requestForPostWithGraphPath:
                                 [NSString stringWithFormat:@"me/%@", self.actionType]
                                                           graphObject:action];
