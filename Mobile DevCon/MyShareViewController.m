@@ -210,29 +210,6 @@ NSString *const kPlaceholderPostMessage = @"Say something about this...";
     [connection start];
 }
 
-/*
- * Publish the image to the staging resources
- */
-- (void) publishImage:(UIImage *)image {
-    [FBSettings setLoggingBehavior:
-     [NSSet setWithObjects:FBLoggingBehaviorFBRequests,
-      FBLoggingBehaviorFBURLConnections,
-      nil]];
-    [FBRequestConnection startForUploadStagingResourceWithImage:image
-                                              completionHandler:
-     ^(FBRequestConnection *connection, id result, NSError *error) {
-         if (error) {
-             NSLog(@"%@", error);
-         } else {
-             // Set the book's image URL to the staging uri
-             self.storyObject[@"object"][@"image"] = result[@"uri"];
-             // Publish the story
-             [self publishStory];
-         }
-         [FBSettings setLoggingBehavior:nil];
-     }];
-}
-
 #pragma Button Actions
 - (IBAction)cancelAction:(id)sender {
     [[self presentingViewController] dismissViewControllerAnimated:YES
