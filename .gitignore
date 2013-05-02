@@ -6,6 +6,7 @@
 */*.xcodeproj/project.xcworkspace
 *.xcodeproj/project.xcworkspace
 *.xcodeproj/xcuserdata*
+*.xcodeproj/xcuserdata/*.xcuserdatad/*
 *~
 *#
 .arcconfig
