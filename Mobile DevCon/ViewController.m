@@ -72,7 +72,7 @@
                      },
                    @{@"image": [UIImage imageNamed:@"bloodline.png"],
                      @"privacy": @NO,
-                     @"object": @"http://furious-mist-4378.herokuapp.com/books/bloodline.html"
+                     @"object": @"http://furious-mist-4378.herokuapp.com/books/six_years.html"
                      },
                    ];
     
