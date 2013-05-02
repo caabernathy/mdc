@@ -241,7 +241,7 @@
                 [FBSession.activeSession
                  requestNewPublishPermissions:
                  [NSArray arrayWithObject:@"publish_actions"]
-                 defaultAudience:FBSessionDefaultAudienceOnlyMe
+                 defaultAudience:FBSessionDefaultAudienceFriends
                  completionHandler:^(FBSession *session, NSError *error) {
                      if (!error) {
                          // If permissions granted, publish the image
