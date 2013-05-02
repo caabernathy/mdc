@@ -26,6 +26,7 @@
 		300B4A6317187D2600009B51 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300B4A6217187D2600009B51 /* FacebookSDK.framework */; };
 		300B4A6517187D3500009B51 /* FacebookSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 300B4A6417187D3500009B51 /* FacebookSDKResources.bundle */; };
 		301B3E701731655C0027AE78 /* bloodline.png in Resources */ = {isa = PBXBuildFile; fileRef = 301B3E6F1731655C0027AE78 /* bloodline.png */; };
+		301B3E781731EC510027AE78 /* a_game_of_thrones.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 301B3E771731EC510027AE78 /* a_game_of_thrones.jpg */; };
 		303A7C841718875F00929534 /* the_tipping_point.png in Resources */ = {isa = PBXBuildFile; fileRef = 303A7C831718875F00929534 /* the_tipping_point.png */; };
 		303A7C891718884D00929534 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 303A7C851718884D00929534 /* Icon-72.png */; };
 		303A7C8A1718884D00929534 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 303A7C861718884D00929534 /* Icon-72@2x.png */; };
@@ -36,7 +37,6 @@
 		30D4DDC8171A5BF100EB91F3 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 30D4DDC7171A5BF100EB91F3 /* lock.png */; };
 		30D4DDCC171A653C00EB91F3 /* MyShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30D4DDCA171A653C00EB91F3 /* MyShareViewController.m */; };
 		30D4DDCD171A653C00EB91F3 /* MyShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30D4DDCB171A653C00EB91F3 /* MyShareViewController.xib */; };
-		30D4DDCF171B457700EB91F3 /* a_game_of_thrones.png in Resources */ = {isa = PBXBuildFile; fileRef = 30D4DDCE171B457700EB91F3 /* a_game_of_thrones.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +64,7 @@
 		300B4A6217187D2600009B51 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		300B4A6417187D3500009B51 /* FacebookSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FacebookSDKResources.bundle; path = ../../../../../Documents/FacebookSDK/FacebookSDK.framework/Versions/A/Resources/FacebookSDKResources.bundle; sourceTree = "<group>"; };
 		301B3E6F1731655C0027AE78 /* bloodline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bloodline.png; sourceTree = "<group>"; };
+		301B3E771731EC510027AE78 /* a_game_of_thrones.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = a_game_of_thrones.jpg; sourceTree = "<group>"; };
 		303A7C831718875F00929534 /* the_tipping_point.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = the_tipping_point.png; sourceTree = "<group>"; };
 		303A7C851718884D00929534 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		303A7C861718884D00929534 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
@@ -75,7 +76,6 @@
 		30D4DDC9171A653C00EB91F3 /* MyShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyShareViewController.h; sourceTree = "<group>"; };
 		30D4DDCA171A653C00EB91F3 /* MyShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyShareViewController.m; sourceTree = "<group>"; };
 		30D4DDCB171A653C00EB91F3 /* MyShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyShareViewController.xib; sourceTree = "<group>"; };
-		30D4DDCE171B457700EB91F3 /* a_game_of_thrones.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = a_game_of_thrones.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,9 +170,9 @@
 		303A7C821718875200929534 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				301B3E771731EC510027AE78 /* a_game_of_thrones.jpg */,
 				301B3E6F1731655C0027AE78 /* bloodline.png */,
 				3066A120171BBC3C000BB88D /* summer_reading_challenge.png */,
-				30D4DDCE171B457700EB91F3 /* a_game_of_thrones.png */,
 				30D4DDC7171A5BF100EB91F3 /* lock.png */,
 				303A7C8D17189D7900929534 /* catching_fire.png */,
 				303A7C831718875F00929534 /* the_tipping_point.png */,
@@ -245,9 +245,9 @@
 				303A7C8E17189D7900929534 /* catching_fire.png in Resources */,
 				30D4DDC8171A5BF100EB91F3 /* lock.png in Resources */,
 				30D4DDCD171A653C00EB91F3 /* MyShareViewController.xib in Resources */,
-				30D4DDCF171B457700EB91F3 /* a_game_of_thrones.png in Resources */,
 				3066A121171BBC3C000BB88D /* summer_reading_challenge.png in Resources */,
 				301B3E701731655C0027AE78 /* bloodline.png in Resources */,
+				301B3E781731EC510027AE78 /* a_game_of_thrones.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

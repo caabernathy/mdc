@@ -62,7 +62,7 @@
                              @"data": @{@"isbn": @"0-316-31696-2"}
                              }
                      },
-                   @{@"image": [UIImage imageNamed:@"a_game_of_thrones.png"],
+                   @{@"image": [UIImage imageNamed:@"a_game_of_thrones.jpg"],
                      @"privacy": @YES,
                      @"object": gameOfThronesBookObject,
                      },
