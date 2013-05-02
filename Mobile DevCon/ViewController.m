@@ -121,7 +121,9 @@
           otherButtonTitles:nil, nil] show];
     } else {
         // Check if object image upload needed
-        [self checkAndUploadBookImage];
+        if ([self checkAndUploadBookImage]) {
+            return;
+        }
         
         // Create an action
         id<FBOpenGraphAction> action = (id<FBOpenGraphAction>)[FBGraphObject graphObject];
@@ -224,12 +226,14 @@
 /*
  * Check if the book's image needs to be uploaded
  */
-- (void) checkAndUploadBookImage
+- (BOOL) checkAndUploadBookImage
 {
+    BOOL uploadingImage = NO;
     NSInteger page = self.pageControl.currentPage;
     // Check if object image upload needed
     if ([self.books[page][@"object"] isKindOfClass:[NSDictionary class]]) {
         if (!self.books[page][@"object"][@"image"]) {
+            uploadingImage = YES;
             // Ask for publish_actions permissions in context
             if ([FBSession.activeSession.permissions
                  indexOfObject:@"publish_actions"] == NSNotFound) {
@@ -237,7 +241,7 @@
                 [FBSession.activeSession
                  requestNewPublishPermissions:
                  [NSArray arrayWithObject:@"publish_actions"]
-                 defaultAudience:FBSessionDefaultAudienceFriends
+                 defaultAudience:FBSessionDefaultAudienceOnlyMe
                  completionHandler:^(FBSession *session, NSError *error) {
                      if (!error) {
                          // If permissions granted, publish the image
@@ -248,9 +252,9 @@
                 // If permissions present, publish the story
                 [self publishBookImage:self.books[page][@"image"]];
             }
-            return;
         }
     }
+    return uploadingImage;
 }
 
 /*
